@@ -1,7 +1,26 @@
 require_relative "./node"
+
 class Tree
   def initialize(array)
     @root = build_tree array
+  end
+
+  def insert(value, node = @root)
+    return Node.new(value) if node.nil?
+
+    if node.data > value
+      node.left_child = insert(value, node.left_child)
+    else
+      node.right_child = insert(value, node.right_child)
+    end
+
+    node
+  end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
   end
  
   private

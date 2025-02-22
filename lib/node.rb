@@ -8,4 +8,10 @@ class Node
     @left_child = nil
     @right_child = nil
   end
+
+  def <=>(other)
+    @data <=> other.data if other.is_a? Node
+
+    @data <=> other
+  end
 end
