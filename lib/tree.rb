@@ -9,18 +9,40 @@ class Tree
     return Node.new(value) if node.nil?
 
     if node.data > value
-      node.left_child = insert(value, node.left_child)
+      node.left = insert(value, node.left)
     else
-      node.right_child = insert(value, node.right_child)
+      node.right = insert(value, node.right)
+    end
+
+    node
+  end
+
+  def delete(value, node = @root)
+    return if node.nil?
+
+    if node < value
+      node.right = delete(value, node.right)
+    elsif node > value
+      node.left = delete(value, node.left) 
+    else
+      if node.left.nil?
+        node = node.right
+      elsif node.right.nil?
+        node = node.left
+      else
+        succ = successor(node.right)
+        node.data = succ.data
+        node.right = delete(succ.data, node.right)
+      end
     end
 
     node
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
-    pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
-    pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
  
   private
@@ -37,9 +59,15 @@ class Tree
     mid = (start + last) / 2
     node = Node.new(array[mid])
 
-    node.left_child = build_tree_rec(array, start, mid - 1) 
-    node.right_child = build_tree_rec(array, mid + 1, last)
+    node.left = build_tree_rec(array, start, mid - 1) 
+    node.right = build_tree_rec(array, mid + 1, last)
 
     return node
+  end
+
+  def successor(node)
+    return node if node.left.nil?
+
+    successor(node.left)
   end
 end
