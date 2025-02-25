@@ -46,6 +46,18 @@ class Tree
     return find(value, node.right) if node < value
   end
 
+  def level_order(queue = Queue.new([@root]), array = [], &block)
+    return (block_given? ? nil : array) if queue.empty?
+
+    node = queue.deq
+    queue.enq node.left unless node.left.nil?
+    queue.enq node.right unless node.right.nil?
+
+    block_given? ? block.call(node) : array.push(node.data)
+
+    level_order(queue, array, &block)
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
