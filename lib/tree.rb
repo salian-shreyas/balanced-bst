@@ -88,6 +88,12 @@ class Tree
     array
   end
 
+  def height(node = @root)
+    return 0 if node.nil? || (node.left.nil? && node.right.nil?)
+
+    [height(node.left), height(node.right)].max + 1
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
