@@ -1,3 +1,26 @@
 require_relative "lib/tree"
 
-bal_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+bal_bst = Tree.new(Array.new(15) {rand(1..100)})
+
+puts bal_bst.balanced?
+
+p bal_bst.preorder
+p bal_bst.postorder
+p bal_bst.inorder
+
+bal_bst.insert(110)
+bal_bst.insert(240)
+bal_bst.insert(101)
+bal_bst.insert(640)
+
+puts bal_bst.balanced?
+
+bal_bst.balance
+
+puts bal_bst.balanced?
+
+p bal_bst.preorder
+p bal_bst.postorder
+p bal_bst.inorder
+
+bal_bst.pretty_print

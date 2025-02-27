@@ -104,7 +104,7 @@ class Tree
   def balanced?(node = @root)
     return true if node.nil? 
 
-    return false if height(node.left) != height(node.right)
+    return false if !(height(node.left) - height(node.right)).between?(-1, 1)
 
     balanced?(node.left) && balanced?(node.right)
   end
