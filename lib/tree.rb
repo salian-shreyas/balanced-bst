@@ -100,6 +100,18 @@ class Tree
 
     depth(key, (node > key) ? node.left : node.right, counter + 1)
   end
+  
+  def balanced?(node = @root)
+    return true if node.nil? 
+
+    return false if height(node.left) != height(node.right)
+
+    balanced?(node.left) && balanced?(node.right)
+  end
+
+  def balance
+    @root = build_tree inorder
+  end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
